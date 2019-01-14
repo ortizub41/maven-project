@@ -25,12 +25,13 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
         <db:select config-ref="Derby_Configuration" doc:name="Database">
             <db:parameterized-query><![CDATA[SELECT * FROM FLIGHTS]]></db:parameterized-query>
         </db:select>
-        <dw:transform-message doc:name="Transform Message">
+        <dw:transform-message doc:name="To JSON">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 payload]]></dw:set-payload>
         </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String"/>
         <jms:outbound-endpoint queue="flights" connector-ref="Active_MQ" doc:name="flights"/>
     </flow>
     <flow name="logFlights">
